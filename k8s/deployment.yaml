@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: custom-app
-        image: custom-app:latest
+        image: localhost:5000/custom-app:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

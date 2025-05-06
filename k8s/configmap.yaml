@@ -6,4 +6,3 @@ data:
   GREETING: "Welcome to the custom app"
   LOG_LEVEL: "INFO"
   APP_PORT: "5000"
-

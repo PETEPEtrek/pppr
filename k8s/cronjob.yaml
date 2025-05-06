@@ -29,4 +29,3 @@ spec:
               type: DirectoryOrCreate
           - name: tmp-volume
             emptyDir: {}
-

@@ -1,4 +1,4 @@
-### **Домашнее задание: Развёртывание распределённой системы логирования и хранения с резервным копированием**
+### **Домашнее задание 2 - добавляем в проект istio**
 
 ## Развёртывание
 
@@ -8,14 +8,15 @@
 4. Развертывание всех необходимых манифестов ```./deploy.sh```
 
 ## Тест
-1. В одном из окон ```kubectl port-forward service/custom-app-service 5000:80```
-2. Далее команды ```curl http://localhost:5000/``` ```curl http://localhost:5000/status``` ```curl -X POST http://localhost:5000/log -d '{"message": "test log"}' -H "Content-Type: application/json"```
-   ```curl http://localhost:5000/logs```
+1. В одном из окон istio gateway ```kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80```
+2. Далее команды ```curl http://localhost:8080/``` ```curl http://localhost:8080/status``` ```curl -i -X POST http://localhost:8080/log -H "Content-Type: application/json" -d '{"message":"hi"}'```
+   ```curl http://localhost:8080/logs```
+   ```curl -i http://localhost:8080/wrong``` - для 404
 
 3. Список подов ```kubectl get pods -l app=log-agent```
 4. Логи выбранного пода ```kubectl logs <pod name>```
+5. Fault-injection + timeout + retry - ```time curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/log -H "Content-Type: application/json" -d '{"message":"x"}'``` - Должен вернуть 504 и занять ~2с
 
 
-![alt text](<Снимок экрана 2025-03-30 175334.png>)
-![alt text](<Снимок экрана 2025-03-30 183843.png>)
-![alt text](<Снимок экрана 2025-03-30 184314.png>)
+![alt text](<Снимок экрана 2025-05-06 213623.png>)
+ ![alt text](<Снимок экрана 2025-05-06 213633.png>)

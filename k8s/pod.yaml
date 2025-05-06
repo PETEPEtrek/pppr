@@ -2,10 +2,11 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: custom-app-pod
+  annotations:
 spec:
   containers:
   - name: custom-app
-    image: custom-app:latest
+    image: localhost:5000/custom-app:latest
     imagePullPolicy: IfNotPresent
     envFrom:
     - configMapRef:
@@ -13,6 +14,13 @@ spec:
     volumeMounts:
     - name: logs-volume
       mountPath: /app/logs
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 5
+      periodSeconds: 5
+  - name: istio-proxy
   volumes:
   - name: logs-volume
     emptyDir: {}
